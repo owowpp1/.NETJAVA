@@ -6,7 +6,7 @@ using System.Windows.Forms;
 
 namespace gui
 {
-    static class Program
+    static class gui
     {
         /// <summary>
         /// Główny punkt wejścia dla aplikacji.
@@ -17,6 +17,11 @@ namespace gui
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
             Application.Run(new Form1());
+        }
+
+        internal static void ustaf(int seed1, int seed2, int miejsca)
+        {
+            throw new NotImplementedException();
         }
     }
 }

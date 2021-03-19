@@ -54,6 +54,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Form1.resx">
+      <DependentUpon>Form1.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -62,6 +65,7 @@
     <Compile Include="Properties\Resources.Designer.cs">
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
+      <DesignTime>True</DesignTime>
     </Compile>
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
@@ -75,6 +79,22 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\bozo wporzo gang tag.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Resources\uciekajmapa.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GeneratorTester1\GeneratorTester1.csproj">
+      <Project>{ea1b279f-3ae5-44f2-95f3-30d75764fd10}</Project>
+      <Name>GeneratorTester1</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\LAB1\LAB1.csproj">
+      <Project>{c0f598e1-6529-41d4-8671-02c6cc366b92}</Project>
+      <Name>LAB1</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
