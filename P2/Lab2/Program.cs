@@ -48,7 +48,7 @@ namespace Lab2
             {
                 while (!poprawnyOdczyt) {
                     Console.Write("Podaj symbol waluty: ");
-                    walutyBaza = Console.ReadLine();
+                    walutyBaza = Console.ReadLine().ToUpper();
                     if (Enum.IsDefined(typeof(WALUTY), walutyBaza))
                     {
                         poprawnyOdczyt = true;
@@ -70,7 +70,7 @@ namespace Lab2
                 {
                     poprawnyOdczyt = true;
                     Console.WriteLine("Podaj symbole walut oddzielone przecinkami:");
-                    walutyParametry = Console.ReadLine();
+                    walutyParametry = Console.ReadLine().ToUpper();
                     walutyParametry = String.Concat(walutyParametry.Where(c => !Char.IsWhiteSpace(c)));
                     for (int i = 0; i < walutyParametry.Length; i++)
                     {
@@ -88,18 +88,28 @@ namespace Lab2
                         }
                         if (ileznakow == 3)
                         {
-                            if (!Enum.IsDefined(typeof(WALUTY), czySymbol))
+                            if (!Enum.IsDefined(typeof(WALUTY), czySymbol.ToUpper()))
                             {
                                 Console.WriteLine("Przynajmniej jedna z podanych walut nie istnieje.");
                                 poprawnyOdczyt = false;
+                                ileznakow = 0;
+                                czySymbol = "";
                                 break;
                             }
+                        }
+                        if (ileznakow==4 && znak != ',')
+                        {
+                            Console.WriteLine("Symbole walut mają po 3 znaki. Czy zostały oddzielone przecinkami?");
+                            poprawnyOdczyt = false;
+                            ileznakow = 0;
+                            czySymbol = "";
+                            break;
                         }
                     }
                 }
             }
 
-            call = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols="+walutyParametry);
+            call = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols="+walutyParametry.ToUpper());
             json = await client.GetStringAsync(call);
             Console.WriteLine(json);
 
