@@ -11,7 +11,7 @@ namespace Lab2
         public int studentId { set; get; }
         public string studentName { set; get; }
     }
-    class waluty
+    public class waluty
     {
         public string Base { set; get; }
         public Dictionary<string, decimal> rates { set; get; }
