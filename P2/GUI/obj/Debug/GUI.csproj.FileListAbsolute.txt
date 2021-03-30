@@ -14,3 +14,7 @@ C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\GUI\obj\Debug\GUI.
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\GUI\obj\Debug\GUI.csproj.CopyComplete
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\GUI\obj\Debug\GUI.exe
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\GUI\obj\Debug\GUI.pdb
+C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\GUI\bin\Debug\EntityFramework.dll
+C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\GUI\bin\Debug\EntityFramework.SqlServer.dll
+C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\GUI\bin\Debug\EntityFramework.xml
+C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\GUI\bin\Debug\EntityFramework.SqlServer.xml

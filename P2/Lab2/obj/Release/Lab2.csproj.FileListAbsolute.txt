@@ -8,3 +8,7 @@ C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\obj\Release\L
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\obj\Release\Lab2.csproj.CopyComplete
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\obj\Release\Lab2.exe
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\obj\Release\Lab2.pdb
+C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Release\EntityFramework.dll
+C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Release\EntityFramework.SqlServer.dll
+C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Release\EntityFramework.xml
+C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Release\EntityFramework.SqlServer.xml

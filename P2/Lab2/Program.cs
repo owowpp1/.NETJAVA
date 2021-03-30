@@ -6,14 +6,18 @@ using System.Threading.Tasks;
 using System.IO;
 using Newtonsoft.Json;
 using System.Net.Http;
+using System.Data.Entity;
 
 namespace Lab2
 {
+
+    
     class Program
     {
         static void Main(string[] args)
         {
             Task wczytanko= loadRates();
+            //Task wczytanko= loadStudents();
             wczytanko.Wait();
 
             Console.ReadLine();
@@ -21,13 +25,19 @@ namespace Lab2
         public static async Task loadStudents()
         {
             HttpClient client = new HttpClient();
+            var context = new University();
+            var student = new Student();
             string call = "http://radoslaw.idzikowski.staff.iiar.pwr.wroc.pl/instruction/students.json";
             string json = await client.GetStringAsync(call);
             Console.WriteLine(json);
 
-            List<student> students = JsonConvert.DeserializeObject<List<student>>(json);
+            List<Student> students = JsonConvert.DeserializeObject<List<Student>>(json);
             foreach (var s in students)
-                Console.WriteLine(s.studentId + "\t" + s.studentName);
+            {
+                Console.WriteLine(s.ID + "\t" + s.name);
+                student.name = s.name;
+                student.ID = s.ID;
+            }
         }
         public static async Task loadRates()
         {
@@ -38,6 +48,7 @@ namespace Lab2
             int ileznakow=0;
             char znak='x';
             bool poprawnyOdczyt = false;
+            //var context = new BazaWalut();
             HttpClient client = new HttpClient();
             waluty rate;
             decimal mnoznik=1;
@@ -114,9 +125,25 @@ namespace Lab2
             Console.WriteLine(json);
 
             rate= JsonConvert.DeserializeObject<waluty>(json);
-                Console.WriteLine("Waluta bazowa: " + walutyBaza);
+            Console.WriteLine("Waluta bazowa: " + walutyBaza);
+
             foreach (KeyValuePair<string, decimal> s in rate.rates)
                 Console.WriteLine("{0}: {1}", s.Key, (s.Value*mnoznik).ToString("0.######"));
+
+            //var waluta = new waluty { ID = rate.ID, Base = (string)walutyBaza, rates = rate.rates };
+            //context.Walutes.Add(waluta);
+            //context.SaveChanges();
+            //Console.WriteLine("Zapisane");
+            //var wypisanko = context.Walutes.SqlQuery("SELECT * FROM Walutes").ToList<waluty>();
+            //var wypisanko = (from v in context.Walutes select v).ToList<waluty>();
+            //foreach (var l in wypisanko)
+            //{
+            //    Console.WriteLine("Baza: " + l.Base);
+            //    Console.WriteLine("Timestamp: " + l.ID);
+            //    foreach (KeyValuePair<string, decimal> s in l.rates)
+            //        Console.WriteLine("{0}: {1}", s.Key, (s.Value * mnoznik).ToString("0.######"));
+            //}
+
 
         }
     }
