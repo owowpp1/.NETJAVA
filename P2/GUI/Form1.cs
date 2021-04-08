@@ -15,8 +15,8 @@ namespace GUI
 {
     public partial class Form1 : Form
     {
-        bool Wal_baz_ok  = true;
-        bool Wal_1_S_ok  = true;
+        bool Wal_baz_ok  = true;        //Zmienne przechowujące informacje
+        bool Wal_1_S_ok  = true;        //o poprawności symboli w okienkach
         bool Wal_2_S_ok  = true;
         bool Wal_3_S_ok  = true;
         bool Wal_4_S_ok  = true;
@@ -36,8 +36,8 @@ namespace GUI
         {
             string res=String.Empty;
 
-            if (Wal_1_S_ok) res += ("," + Wal_1_S.Text);
-            if (Wal_2_S_ok) res += ("," + Wal_2_S.Text);
+            if (Wal_1_S_ok) res += ("," + Wal_1_S.Text);        //Jeżeli zawartość textboxu jest poprawna,
+            if (Wal_2_S_ok) res += ("," + Wal_2_S.Text);        //dodaj jego treść do stringa
             if (Wal_3_S_ok) res += ("," + Wal_3_S.Text);
             if (Wal_4_S_ok) res += ("," + Wal_4_S.Text);
             if (Wal_5_S_ok) res += ("," + Wal_5_S.Text);
@@ -47,23 +47,32 @@ namespace GUI
             if (Wal_9_S_ok) res += ("," + Wal_9_S.Text);
             if (Wal_10_S_ok)res += ("," + Wal_10_S.Text);
 
-            Console.WriteLine(res);
-            return res;
+            Console.WriteLine("Wybrane waluty: " + res);
+            return res;     //zwróć utworzonego stringa
         }
-        private void Wal_Baz_TextChanged(object sender, EventArgs e)
+        private void KwotaBazy_TextChanged(object sender, EventArgs e)  //Gdy zmieni się tekst w polu z kwotą w walucie bazowej
         {
-            if (!Enum.IsDefined(typeof(WALUTY), Wal_Baz.Text.ToUpper()))
+            if (!decimal.TryParse(KwotaBazy.Text, out _))               //Jeśli zawartości textboxu nie można przeparsować na typ decimal
             {
-                Wal_Baz.BackColor = System.Drawing.Color.FromArgb(255, 240, 128, 128);
-                Wal_baz_ok = false;
+                KwotaBazy.BackColor = System.Drawing.Color.FromArgb(255, 240, 128, 128);    //ustaw kolor tła na jasnoczerwony
             }
-            else
+            else                                                        //w przeciwnym wypadku
+                KwotaBazy.BackColor = System.Drawing.Color.White;       //ustaw kolor z powrotem na biały
+        }
+        private void Wal_Baz_TextChanged(object sender, EventArgs e)        //Gdy zmieni się tekst w polu z walutą bazową
+        {
+            if (!Enum.IsDefined(typeof(WALUTY), Wal_Baz.Text.ToUpper()))    //jeśli jego zawartość nie jest prawidłowym symbolem waluty
             {
-                Wal_Baz.BackColor = System.Drawing.Color.White;
-                Wal_baz_ok = true;
+                Wal_Baz.BackColor = System.Drawing.Color.FromArgb(255, 240, 128, 128);  //ustaw kolor tła na jasnoczerwony
+                Wal_baz_ok = false;                                                     //zapamiętaj, że zawartość niewłaściwa
+            }
+            else                                                                        //Jeśli zawartość jest symbolem
+            {
+                Wal_Baz.BackColor = System.Drawing.Color.White;                         //ustaw tło z powrotem na kolor biały
+                Wal_baz_ok = true;                                                      //zapamiętaj, że zawartość jest prawidłowa
             }
         }
-        private void Wal_1_S_TextChanged(object sender, EventArgs e)
+        private void Wal_1_S_TextChanged(object sender, EventArgs e)        //Pozostałe textboxy obsłużone analogicznie co Wal_Baz
         {
             if (!Enum.IsDefined(typeof(WALUTY), Wal_1_S.Text.ToUpper()))
             {
@@ -203,41 +212,68 @@ namespace GUI
             }
         }
 
-        private async void Przycisk_Click(object sender, EventArgs e)
+        private async void Przycisk_Click(object sender, EventArgs e)       //Gdy kliknięty zostanie przycisk
         {
-            HttpClient client = new HttpClient();
-            waluty rate;
-            string call, json;
-            decimal mnoznik = 1;
-            List<decimal> wyniki= new List<decimal>();
-            int i = 0;
-
-            if (Wal_Baz.Text != "USD")
+            if (Wal_baz_ok)                                                 //Wykonaj cokolwiek wyłącznie jeśli podano właściwą walutę bazową
             {
-                call = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols=" + Wal_Baz.Text);
+                HttpClient client = new HttpClient();                       //Funkcje analogiczne co w przypadku aplikacji konsolowej
+                waluty rate;
+                string call, json;
+                decimal mnoznik = 1;
+                decimal kwota_bazy;
+
+                if(!decimal.TryParse(KwotaBazy.Text, out kwota_bazy))       //Jeśli zawartość pola z kwotą nie jest decimalem
+                {
+                    kwota_bazy = 100;                                       //ustaw wartość po chamsku na 100
+                    KwotaBazy.Text = kwota_bazy.ToString();                 //i wypisz ją do textboxu
+                }
+                    
+                //List<decimal> wyniki = new List<decimal>();
+
+                if (Wal_Baz.Text != "USD")                  //jeśli wybrano inną walutę bazową, niż USD, wyznacz mnożnik
+                {
+                    call = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols=" + Wal_Baz.Text);
+                    json = await client.GetStringAsync(call);
+                    rate = JsonConvert.DeserializeObject<waluty>(json);
+                    foreach (KeyValuePair<string, decimal> s in rate.rates)
+                        mnoznik = 1 / s.Value;
+                }
+                Console.WriteLine("Baz: " + Wal_Baz.Text + "\tMnoznik: " + mnoznik.ToString());
+                //Wyślij zapytanie z utworzonym stringiem
+                call = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols=" + UtworzStringa());
                 json = await client.GetStringAsync(call);
                 rate = JsonConvert.DeserializeObject<waluty>(json);
-                foreach (KeyValuePair<string, decimal> s in rate.rates)
-                    mnoznik = 1 / s.Value;
-            }
-            Console.WriteLine("Baz: " + Wal_Baz.Text + "\tMnoznik: " + mnoznik.ToString());
-            call = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols=" + UtworzStringa());
-            json = await client.GetStringAsync(call);
-            rate = JsonConvert.DeserializeObject<waluty>(json);
-            foreach (KeyValuePair<string, decimal> s in rate.rates)
-            {
-                foreach (Control contrl in this.Controls)
+                foreach (KeyValuePair<string, decimal> s in rate.rates)     //Dla każdego elementu w dictionary
                 {
-                    if (contrl.Text == s.Key && contrl.Name!="Wal_Baz")
+                    foreach (Control contrl in this.Controls)               //Przeszukaj wszystkie elementy GUI
                     {
-                        foreach (Control contrl2 in this.Controls)
+                        if (contrl.Text == s.Key && contrl.Name != "Wal_Baz")   //Jeśli zawartość elementu GUI zgodna z kluczem słownika
+                        {                                                       //i nie jest to pole waluty bazowej
+                            foreach (Control contrl2 in this.Controls)          //Przeszukaj wszystkie elementy GUI
+                            {
+                                if (contrl2.Name == contrl.Name.Replace('S', 'W'))              //Jeśli nazwa odpowiada nazwie pierwszego elementu
+                                    contrl2.Text = (s.Value * mnoznik*kwota_bazy).ToString("0.######");    //Wypisz value ze słownika
+                            }
+                        }
+                    }
+                }
+                foreach (Control contrl in this.Controls)                       //Ponownie przeszukaj wszystkie elementy GUI
+                {
+                    if ((!Enum.IsDefined(typeof(WALUTY), contrl.Text.ToUpper())) && contrl.GetType() == typeof(TextBox) && contrl.Name.EndsWith("S"))
+                    {       //Jeśli element jest textboxem, jego nazwa kończy się na "S" (Symbol), oraz jego zawartość nie jest właściwym symbolem
+                        foreach (Control contrl2 in this.Controls)              //Przeszukaj wszystkie elementy GUI
                         {
-                            if (contrl2.Name == contrl.Name.Replace('S', 'W'))
-                                contrl2.Text=(s.Value*mnoznik).ToString("0.######");
+                            if (contrl2.Name == contrl.Name.Replace('S', 'W'))  //jeżeli nazwa elementu odpowiada nazwie pierwszego elementu
+                            {
+                                contrl2.Text = "Błędny symbol";                         //Wypisz informację o niewłaściwym symbolu
+                                contrl2.BackColor = System.Drawing.Color.FromArgb(255, 220, 220, 220);  //Ustaw tło na jasnoszare
+                            }
                         }
                     }
                 }
             }
+            else Console.WriteLine("Niewłaściwa waluta bazowa.");
         }
+
     }
 }

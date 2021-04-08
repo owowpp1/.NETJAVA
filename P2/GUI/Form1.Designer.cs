@@ -64,6 +64,8 @@ namespace GUI
             this.label12 = new System.Windows.Forms.Label();
             this.Wal_10_W = new System.Windows.Forms.TextBox();
             this.Przycisk = new System.Windows.Forms.Button();
+            this.label13 = new System.Windows.Forms.Label();
+            this.KwotaBazy = new System.Windows.Forms.TextBox();
             this.SuspendLayout();
             // 
             // label1
@@ -80,7 +82,7 @@ namespace GUI
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("EFN MacMenuTT", 9.75F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
-            this.label2.Location = new System.Drawing.Point(13, 60);
+            this.label2.Location = new System.Drawing.Point(12, 69);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(148, 17);
             this.label2.TabIndex = 1;
@@ -451,12 +453,35 @@ namespace GUI
             this.Przycisk.UseVisualStyleBackColor = false;
             this.Przycisk.Click += new System.EventHandler(this.Przycisk_Click);
             // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Font = new System.Drawing.Font("EFN MacMenuTT", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.label13.Location = new System.Drawing.Point(12, 36);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(88, 24);
+            this.label13.TabIndex = 10;
+            this.label13.Text = "Kwota:";
+            // 
+            // KwotaBazy
+            // 
+            this.KwotaBazy.Font = new System.Drawing.Font("Microsoft Sans Serif", 12F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(238)));
+            this.KwotaBazy.Location = new System.Drawing.Point(124, 36);
+            this.KwotaBazy.Name = "KwotaBazy";
+            this.KwotaBazy.Size = new System.Drawing.Size(146, 26);
+            this.KwotaBazy.TabIndex = 11;
+            this.KwotaBazy.Text = "100";
+            this.KwotaBazy.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.KwotaBazy.TextChanged += new System.EventHandler(this.KwotaBazy_TextChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.BackColor = System.Drawing.SystemColors.ControlDarkDark;
             this.ClientSize = new System.Drawing.Size(758, 448);
+            this.Controls.Add(this.KwotaBazy);
+            this.Controls.Add(this.label13);
             this.Controls.Add(this.Przycisk);
             this.Controls.Add(this.Wal_10_W);
             this.Controls.Add(this.Wal_8_W);
@@ -536,6 +561,8 @@ namespace GUI
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.TextBox Wal_10_W;
         private System.Windows.Forms.Button Przycisk;
+        private System.Windows.Forms.Label label13;
+        private System.Windows.Forms.TextBox KwotaBazy;
     }
 }
 

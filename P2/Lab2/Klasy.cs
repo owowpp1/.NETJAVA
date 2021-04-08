@@ -20,7 +20,6 @@ namespace Lab2
     }
     public class waluty
     {
-        [JsonProperty(PropertyName = "timestamp")]
         public int ID { set; get; }
         public string Base { set; get; }
         public Dictionary<string, decimal> rates { set; get; }

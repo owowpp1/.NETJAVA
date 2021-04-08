@@ -1,7 +1,6 @@
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Debug\Lab2.exe.config
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Debug\Lab2.exe
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Debug\Lab2.pdb
-C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\obj\Debug\Lab2.csprojAssemblyReference.cache
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\obj\Debug\Lab2.csproj.CoreCompileInputs.cache
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\obj\Debug\Lab2.exe
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\obj\Debug\Lab2.pdb
@@ -12,3 +11,4 @@ C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Debug\Ent
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Debug\EntityFramework.SqlServer.dll
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Debug\EntityFramework.xml
 C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\bin\Debug\EntityFramework.SqlServer.xml
+C:\Users\Bidze\Desktop\Studia lol\6sem\.NJ\GITHUB\.NETJAVA\P2\Lab2\obj\Debug\Lab2.csprojAssemblyReference.cache
