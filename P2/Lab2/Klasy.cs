@@ -24,8 +24,15 @@ namespace Lab2
         public string Base { set; get; }
         public Dictionary<string, decimal> rates { set; get; }
     }
-    public class BazaWalut : DbContext
+    public class BDwaluty
     {
-        public virtual DbSet<waluty> Walutes { set; get; }
+        public int ID { set; get; }
+        public string Base { set; get; }
+        public string Symbol { set; get; }
+        public decimal Wartosc { set; get; }
+    }
+    public class BazaWalut2 : DbContext
+    {
+        public virtual DbSet<BDwaluty> Walutes { set; get; }
     }
 }

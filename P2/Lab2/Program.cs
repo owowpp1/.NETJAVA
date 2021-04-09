@@ -54,7 +54,7 @@ namespace Lab2
             int ileznakow=0;
             char znak='x';
             bool poprawnyOdczyt = false;                    //czy poprawnie odczytano symbole walut
-            //var context = new BazaWalut();
+            var context = new BazaWalut2();
             HttpClient client = new HttpClient();           //klient http
             waluty rate;                                    //zmienna, w której przechowane zostaną wyniki
             decimal mnoznik=1;                              //mnożnik pozwalający zmienić walutę bazową za darmolca
@@ -129,7 +129,7 @@ namespace Lab2
             //Utwórz zapytanie do API
             call = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols="+walutyParametry.ToUpper());
             json = await client.GetStringAsync(call);       //zapisz odpowiedź z API do zmiennej json
-            Console.WriteLine(json);                        //wypisz odpowiedź z API
+            //Console.WriteLine(json);                        //wypisz odpowiedź z API
 
             rate= JsonConvert.DeserializeObject<waluty>(json);  //zdeserializuj zawartość zmiennej json
             Console.WriteLine("Waluta bazowa: " + walutyBaza);  //wypisz walutę bazową
@@ -140,35 +140,26 @@ namespace Lab2
                 Console.WriteLine("{0}: {1}", s.Key, (s.Value * mnoznik).ToString("0.######")); //wypisz klucz i wartość ze słownika
             }
 
+            Console.WriteLine("\n\n\nBAZA DANYCH:\n\n");
+            BDwaluty waluta = new BDwaluty { Base = (string)walutyBaza };
 
-            /*************************BAZA DANYCH CO NIE DZIAŁA ELO BENC*******************************/
+            foreach (KeyValuePair<string, decimal> s in rate.rates)
+            {
+                waluta.Symbol = s.Key;
+                waluta.Wartosc = s.Value*mnoznik;
+                context.Walutes.Add(waluta);
+                context.SaveChanges();
+            }
 
-
-            //waluty waluta = new waluty { Base = (string)walutyBaza, rates=new Dictionary<string, decimal>() };
-
-            //foreach (KeyValuePair<string, decimal> s in rate.rates)
-            //{
-            //    waluta.rates.Add(s.Key, (s.Value * mnoznik));
-            //    Console.WriteLine("Przepisano {0}: {1} do walutes", s.Key, (s.Value * mnoznik).ToString("0.######"));
-            //}
-            //Console.WriteLine("Wartości w waluty:");
-            //foreach (KeyValuePair<string, decimal> s in waluta.rates)
-            //{
-            //    Console.WriteLine("Key {0} Value {1}", s.Key, s.Value.ToString("0.######"));
-            //}
-
-            //context.Walutes.Add(waluta);
-            //context.SaveChanges();
-            //Console.WriteLine("Zapisane");
-            ////var wypisanko = context.Walutes.SqlQuery("SELECT * FROM Walutes").ToList<waluty>();
-            //var wypisanko = (from v in context.Walutes select v).ToList<waluty>();
-            //foreach (var l in wypisanko)
-            //{
-            //    Console.WriteLine("Baza: " + l.Base);
-            //    Console.WriteLine("ID: " + l.ID);
-            //    foreach (KeyValuePair<string, decimal> s in l.rates)
-            //        Console.WriteLine("{0}: {1}", s.Key, (s.Value * mnoznik).ToString("0.######"));
-            //}
+            Console.WriteLine("Zapisane");
+            //var wypisanko = context.Walutes.SqlQuery("SELECT * FROM Walutes").ToList<BDwaluty>();
+            var wypisanko = (from v in context.Walutes select v).ToList<BDwaluty>();
+            foreach (var l in wypisanko)
+            {
+                Console.Write("ID: " + l.ID);
+                Console.Write("\tBaza: " + l.Base);
+                Console.Write("\t{0}: {1}\n", l.Symbol, l.Wartosc.ToString("0.######"));
+            }
 
 
         }
