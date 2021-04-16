@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.IO;
 using Newtonsoft.Json;
 using System.Net.Http;
@@ -27,6 +28,7 @@ namespace Lab2
                 yesno=Console.ReadLine();
             }
         }
+        public static decimal mnoznik=1;
 
         public static async Task loadStudents() //z zajęć
         {
@@ -47,9 +49,8 @@ namespace Lab2
         }
         public static async Task loadRates()
         {
-            
             string walutyParametry = "USD,EUR,GBP,PLN";     //domyślne waluty, na które przeliczamy
-            object walutyBaza = "USD";                      //domyślna waluta bazowa
+            string walutyBaza = "USD";                      //domyślna waluta bazowa
             string yesno, call, json, czySymbol="";         //zmienne pomocnicze
             int ileznakow=0;
             char znak='x';
@@ -57,7 +58,9 @@ namespace Lab2
             var context = new BazaWalut2();
             HttpClient client = new HttpClient();           //klient http
             waluty rate;                                    //zmienna, w której przechowane zostaną wyniki
-            decimal mnoznik=1;                              //mnożnik pozwalający zmienić walutę bazową za darmolca
+            mnoznik=1;                              //mnożnik pozwalający zmienić walutę bazową za darmolca
+            thready obiekt = new thready();
+            Thread thread = new Thread(() => obiekt.pobierzmnoznik(walutyBaza));
 
             Console.WriteLine("Domyślna baza: USD. Chcesz podać swoją?");
             yesno = Console.ReadLine();
@@ -69,11 +72,7 @@ namespace Lab2
                     if (Enum.IsDefined(typeof(WALUTY), walutyBaza))     //jeśli podany przez użytkownika string jest symbolem zdefiniowanym w WALUTY
                     {
                         poprawnyOdczyt = true;                          //zapamiętaj, że dokonano poprawnego odczytu i skonstruuj zapytanie do API
-                        call = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols=" + walutyBaza);
-                        json = await client.GetStringAsync(call);               //pobierz dane z API i zapisz je w zmiennej json
-                        rate = JsonConvert.DeserializeObject<waluty>(json);     //deserializuj zawartość zmiennej json
-                        foreach (KeyValuePair<string, decimal> s in rate.rates)
-                            mnoznik = 1 / s.Value;                              //mnożnik jest odwrotnością wartości niestandardowej waluty w dolarach
+                        thread.Start();
                     }
                     else Console.WriteLine("Nie ma takiej waluty. Spróbuj ponownie.");
                 }     
@@ -125,7 +124,7 @@ namespace Lab2
                     }
                 }
             }
-
+            thread.Join();
             //Utwórz zapytanie do API
             call = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols="+walutyParametry.ToUpper());
             json = await client.GetStringAsync(call);       //zapisz odpowiedź z API do zmiennej json
@@ -162,6 +161,18 @@ namespace Lab2
             }
 
 
+        }
+        class thready
+        {
+            public async void pobierzmnoznik(string symbolWal)
+            {
+                HttpClient client = new HttpClient();
+                string zapytanko = ("https://openexchangerates.org/api/latest.json?app_id=0c4e952688494f94b916d6c2ef29a9ee&base=USD&symbols=" + symbolWal);
+                string json = await client.GetStringAsync(zapytanko);                //pobierz dane z API i zapisz je w zmiennej json
+                waluty rate = JsonConvert.DeserializeObject<waluty>(json);      //deserializuj zawartość zmiennej json
+                foreach (KeyValuePair<string, decimal> s in rate.rates)
+                    mnoznik = 1 / s.Value;                                     //mnożnik jest odwrotnością wartości niestandardowej waluty w dolarach
+            }
         }
     }
 }
