@@ -22,7 +22,8 @@ namespace P4.Atrybuty
     {
         public override bool IsValid(object value)
         {
-            string symbol=value.ToString().ToUpper();
+            string symbol="abc";
+            if(value!=null) symbol=value.ToString().ToUpper();
             return Enum.IsDefined(typeof(WALUTY), symbol);
 
         }
