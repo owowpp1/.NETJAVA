@@ -20,4 +20,17 @@ public class Najemca {
 		
 		return wynik;
 	}
+	Najemca(){
+		Imie="";
+		odkiedy=new Date();
+		dokiedy=new Date();
+		bilans=0.0;
+	}
+	
+	Najemca(Najemca n){
+		Imie=n.Imie;
+		odkiedy=n.odkiedy;
+		dokiedy=n.dokiedy;
+		bilans=n.bilans;
+	}
 }
