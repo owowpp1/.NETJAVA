@@ -1,6 +1,5 @@
 package MieszkanieCalc;
 
-import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
@@ -12,12 +11,9 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 
-import java.awt.GridBagLayout;
-import java.awt.GridLayout;
 import java.util.Calendar;
 import java.util.Date;
 
-import javax.swing.BoxLayout;
 import javax.swing.SpringLayout;
 import javax.swing.JLabel;
 import java.awt.Font;
@@ -33,14 +29,14 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
-import java.awt.event.InputMethodListener;
-import java.awt.event.InputMethodEvent;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
+
 import javax.swing.UIManager;
 
 public class DodajNajemce extends JFrame implements ChangeListener {
 
+	private static final long serialVersionUID = 1L;
 	private JPanel contentPane;
 	private JLabel lblWynajmowaOd;
 	private JLabel lblWynajmowaDo;
@@ -105,6 +101,8 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 		contentPane.add(lblWynajmowaDo);
 		
 		data_od = new JDateChooser();
+		data_od.getCalendarButton().setToolTipText("Wybierz dat\u0119");
+		data_od.setToolTipText("Od kiedy mieszka?");
 		data_od.setDateFormatString("dd-MM-yyyy");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, lblWynajmowaOd, 0, SpringLayout.NORTH, data_od);
 		sl_contentPane.putConstraint(SpringLayout.WEST, data_od, 179, SpringLayout.WEST, contentPane);
@@ -118,6 +116,8 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 		contentPane.add(data_od);
 		
 		data_do = new JDateChooser();
+		data_do.getCalendarButton().setToolTipText("Wybierz dat\u0119");
+		data_do.setToolTipText("Do kiedy mieszka\u0142?");
 		data_od.getDateEditor().addPropertyChangeListener(
 			    new PropertyChangeListener() {
 			        @Override
@@ -135,7 +135,6 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 							for( Component c : data_od.getComponents()){
 						    ((JComponent)c).setBackground(bad);
 							}
-							System.out.println(podana);
 						}
 						else{
 							poprawnedaty=true;
@@ -162,7 +161,6 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 							for( Component c : data_do.getComponents()){
 						    ((JComponent)c).setBackground(bad);
 							}
-							System.out.println(podana);
 						}
 						else{
 							poprawnedaty=true;
@@ -182,6 +180,7 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 		contentPane.add(data_do);
 		
 		imietf = new JTextField();
+		imietf.setToolTipText("Nazwij wynajmuj\u0105cego");
 		imietf.setText("Imi\u0119");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, lblNewLabel, 3, SpringLayout.NORTH, imietf);
 		sl_contentPane.putConstraint(SpringLayout.EAST, lblNewLabel, -6, SpringLayout.WEST, imietf);
@@ -193,6 +192,7 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 		imietf.setColumns(20);
 		
 		podglad = new JTextArea();
+		podglad.setToolTipText("Podgl\u0105d wpisanych danych");
 		sl_contentPane.putConstraint(SpringLayout.NORTH, podglad, 18, SpringLayout.SOUTH, lblWynajmowaDo);
 		sl_contentPane.putConstraint(SpringLayout.WEST, podglad, 15, SpringLayout.WEST, contentPane);
 		sl_contentPane.putConstraint(SpringLayout.SOUTH, podglad, -200, SpringLayout.SOUTH, contentPane);
@@ -203,6 +203,7 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 		contentPane.add(podglad);
 		
 		JButton zatwierdz = new JButton("Zatwierd\u017A");
+		zatwierdz.setToolTipText("Zatwierd\u017A podane dane");
 		zatwierdz.setBackground(UIManager.getColor("Button.light"));
 		sl_contentPane.putConstraint(SpringLayout.NORTH, zatwierdz, 50, SpringLayout.SOUTH, podglad);
 		sl_contentPane.putConstraint(SpringLayout.WEST, zatwierdz, 65, SpringLayout.WEST, contentPane);
@@ -233,13 +234,40 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 		contentPane.add(refreshbtn);
 	}
 	
-	void zapisz(){	//nie dziala
+	@SuppressWarnings("deprecation")
+	void zapisz(){
 		if(imietf!=null&&data_od.getDate()!=null&&data_do.getDate()!=null&&poprawnedaty){
 			Najemca osoba=new Najemca();
-			osoba.Imie=imietf.getText();
+			osoba.Imie=new String(imietf.getText());
 			osoba.odkiedy=data_od.getDate();
 			osoba.dokiedy=data_do.getDate();
+			DateFormat newdf = new SimpleDateFormat("yyyy-MM-dd");
+			long czas = ChronoUnit.MONTHS.between(
+			        LocalDate.parse(newdf.format(osoba.odkiedy)).withDayOfMonth(1),
+			        LocalDate.parse(newdf.format(osoba.dokiedy)).withDayOfMonth(1));
+			Calendar cal2 = Calendar.getInstance();
+			cal2.setTime(osoba.dokiedy);
+			if(cal2.get(Calendar.DAY_OF_MONTH)>20)czas++;
+			osoba.lMies=czas;
+			Calendar cal = Calendar.getInstance();
+			cal.setTime(osoba.odkiedy);
+			int miesiac = cal.get(Calendar.MONTH);
+			for(int i=0; i<12; i++){
+				osoba.mieszkanemiesiace[i]=false;
+			}
+			for (int i=0; i<czas; i++){
+				if(miesiac+i<12)	osoba.mieszkanemiesiace[miesiac+i]=true;
+				else				osoba.mieszkanemiesiace[miesiac+i-12]=true;
+			}
+			try{
+				osoba.Wplacone=(czas*Double.parseDouble(Menju.CenaMSC.getText()));
+			} catch (Exception e){
+				osoba.Wplacone=(czas*750.0);
+			}
+
 			Menju.program.lista.add(new Najemca(osoba));
+			
+			setVisible(false);
 		}
 	}
 	
