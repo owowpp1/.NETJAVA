@@ -135,10 +135,16 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 							for( Component c : data_od.getComponents()){
 						    ((JComponent)c).setBackground(bad);
 							}
+							for( Component c : data_do.getComponents()){
+							    ((JComponent)c).setBackground(bad);
+								}
 						}
 						else{
 							poprawnedaty=true;
 							for( Component c : data_od.getComponents()){
+							    ((JComponent)c).setBackground(Color.white);
+							}
+							for( Component c : data_do.getComponents()){
 							    ((JComponent)c).setBackground(Color.white);
 							}
 						}
@@ -161,10 +167,16 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 							for( Component c : data_do.getComponents()){
 						    ((JComponent)c).setBackground(bad);
 							}
+							for( Component c : data_od.getComponents()){
+							    ((JComponent)c).setBackground(bad);
+								}
 						}
 						else{
 							poprawnedaty=true;
 							for( Component c : data_do.getComponents()){
+							    ((JComponent)c).setBackground(Color.white);
+							}
+							for( Component c : data_od.getComponents()){
 							    ((JComponent)c).setBackground(Color.white);
 							}
 						}
@@ -262,7 +274,7 @@ public class DodajNajemce extends JFrame implements ChangeListener {
 			try{
 				osoba.Wplacone=(czas*Double.parseDouble(Menju.CenaMSC.getText()));
 			} catch (Exception e){
-				osoba.Wplacone=(czas*750.0);
+				osoba.Wplacone=(czas*250.0);
 			}
 
 			Menju.program.lista.add(new Najemca(osoba));

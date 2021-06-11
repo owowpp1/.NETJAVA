@@ -36,7 +36,6 @@ public class Najemca {
 		mieszkanewzimie=0;
 		mieszkanemiesiace=new Boolean[12];
 	}
-	
 	Najemca(Najemca n){
 		Imie=n.Imie;
 		odkiedy=n.odkiedy;

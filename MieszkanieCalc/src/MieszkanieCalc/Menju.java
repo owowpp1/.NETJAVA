@@ -309,7 +309,7 @@ public class Menju {
 						if(CenaGaz.getText().indexOf(",")!=-1) CenaGaz.setText(CenaGaz.getText().replace(',', '.'));
 						if(CenaGaz.getText().indexOf(".")==-1) CenaGaz.setText(CenaGaz.getText()+".0");
 						program.oplaty.gaz=Double.parseDouble(CenaGaz.getText());
-						program.oplaty.gaz*=-1;
+//						program.oplaty.gaz*=-1;
 						if(NiedoWoda.getText().indexOf(",")!=-1) NiedoWoda.setText(NiedoWoda.getText().replace(',', '.'));
 						if(NiedoWoda.getText().indexOf(".")==-1) NiedoWoda.setText(NiedoWoda.getText()+".0");
 						program.oplaty.wodaniedo=Double.parseDouble(NiedoWoda.getText());
@@ -425,10 +425,16 @@ public class Menju {
 							for( Component c : RozlOd.getComponents()){
 						    ((JComponent)c).setBackground(bad);
 							}
+							for( Component c : RozlDo.getComponents()){
+							    ((JComponent)c).setBackground(bad);
+								}
 						}
 						else{
 							poprawnedaty=true;
 							for( Component c : RozlOd.getComponents()){
+							    ((JComponent)c).setBackground(Color.white);
+							}
+							for( Component c : RozlDo.getComponents()){
 							    ((JComponent)c).setBackground(Color.white);
 							}
 						}
@@ -451,10 +457,16 @@ public class Menju {
 							for( Component c : RozlDo.getComponents()){
 						    ((JComponent)c).setBackground(bad);
 							}
+							for( Component c : RozlOd.getComponents()){
+							    ((JComponent)c).setBackground(bad);
+								}
 						}
 						else{
 							poprawnedaty=true;
 							for( Component c : RozlDo.getComponents()){
+							    ((JComponent)c).setBackground(Color.white);
+							}
+							for( Component c : RozlOd.getComponents()){
 							    ((JComponent)c).setBackground(Color.white);
 							}
 						}
@@ -467,7 +479,7 @@ public class Menju {
 			wyniki.setText("<center><font size=\"30\"><samp>Brak wynajmujących</samp></font></center>");
 		}
 		else{
-			String wynik=""; 
+			String wynik="";
 			wynik+="<pre><font size=\"5\"><samp>";
 			wynik+=String.format("%-20s", "Nazwa wynajmującego");
 			wynik+=String.format("│%-11s", "Wynajem od");

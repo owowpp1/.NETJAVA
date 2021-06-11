@@ -45,10 +45,9 @@ public class SQLite {
 				Date wynajem_od=data_format.parse(wynik.getString("wynajem_od"));
 				Date wynajem_do=data_format.parse(wynik.getString("wynajem_do"));
 				Double bilans=wynik.getDouble("bilans");
-				Double Wplacone=wynik.getDouble("Wplacone");
 				
-				System.out.println(id+"    "+imie+" "+data_format.format(wynajem_od)+" "+data_format.format(wynajem_do)+" "+bilans+" "+Wplacone);
-				output+=(id+"    "+imie+" "+data_format.format(wynajem_od)+" "+data_format.format(wynajem_do)+" "+bilans+" "+Wplacone+"\n");
+				System.out.println(id+"    "+imie+" "+data_format.format(wynajem_od)+" "+data_format.format(wynajem_do)+" "+bilans+" ");
+				output+=(id+"    "+imie+" "+data_format.format(wynajem_od)+" "+data_format.format(wynajem_do)+" "+bilans+"\n");
 			}
 		} catch (Exception e){
 			System.out.println("B³¹d wypisz: "+e.getMessage());
